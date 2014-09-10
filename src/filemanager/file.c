@@ -566,33 +566,23 @@ do_compute_dir_size (const vfs_path_t * dirname_vpath, dirsize_status_msg_t * ds
         if (res == 0)
         {
             if (S_ISDIR (s.st_mode))
-            {
                 ret =
                     do_compute_dir_size (tmp_vpath, dsm, dir_count, ret_marked, ret_total,
                                          compute_symlinks);
-
-                if (ret == FILE_CONT && sm->update != NULL && mc_time_elapsed (&timestamp, delay))
-                {
-                    dsm->dirname_vpath = tmp_vpath;
-                    dsm->dir_count = *dir_count;
-                    dsm->total_size = *ret_total;
-                    ret = (FileProgressStatus) sm->update (sm);
-                }
-            }
             else
             {
+                ret = FILE_CONT;
+
                 (*ret_marked)++;
                 *ret_total += (uintmax_t) s.st_size;
+            }
 
-                if (sm->update == NULL)
-                    ret = FILE_CONT;
-                else if (mc_time_elapsed (&timestamp, delay))
-                {
-                    dsm->dirname_vpath = dirname_vpath;
-                    dsm->dir_count = *dir_count;
-                    dsm->total_size = *ret_total;
-                    ret = (FileProgressStatus) sm->update (sm);
-                }
+            if (ret == FILE_CONT && sm->update != NULL && mc_time_elapsed (&timestamp, delay))
+            {
+                dsm->dirname_vpath = tmp_vpath;
+                dsm->dir_count = *dir_count;
+                dsm->total_size = *ret_total;
+                ret = (FileProgressStatus) sm->update (sm);
             }
         }
 
