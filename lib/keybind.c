@@ -209,9 +209,9 @@ static name_keymap_t command_names[] = {
     {"PutOtherTagged", CK_PutOtherTagged},
     {"Select", CK_Select},
     {"Unselect", CK_Unselect},
-    {"SelectExt", CK_SelectExt},
 
     /* panel */
+    {"SelectExt", CK_SelectExt},
     {"ScrollLeft", CK_ScrollLeft},
     {"ScrollRight", CK_ScrollRight},
     {"PanelOtherCd", CK_PanelOtherCd},
